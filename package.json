@@ -1,0 +1,23 @@
+{
+  "scripts": {
+    "build": "tsc src/index.ts",
+    "watch": "tsc -w",
+    "test": "echo 'testing'"
+  },
+  "name": "bankid-api",
+  "version": "1.0.0",
+  "description": "Functions to talk to the Swedish BankID API",
+  "main": "src/index.js",
+  "repository": "asd",
+  "author": "Ulrik Strid (ulrik.strid@outlook.com)",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "axios": "^0.18.0"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/node": "^9.4.7",
+    "typescript": "^2.7.2"
+  }
+}
