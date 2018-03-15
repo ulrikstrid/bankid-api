@@ -1,3 +1,4 @@
 src/*.js
 src/*.d.ts
+build
 node_modules

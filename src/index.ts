@@ -9,6 +9,33 @@ const testPassphrase = "querty123";
 
 export { AxiosInstance, AxiosResponse, AxiosPromise };
 
+export interface CompletionData {
+  user: {
+    personalNumber: string;
+    name: string;
+    givenName: string;
+    surname: string;
+  };
+  device: {
+    ipAddress: string;
+  };
+  cert: {
+    notBefore: string; // date as string
+    notAfter: string; // date as string
+  };
+  signature: string; // buffer?
+  ocspResponse: string; // buffer?
+}
+export interface CollectResponse {
+  orderRef: string;
+  status: "pending" | "complete" | "failed";
+  hintCode: "userCancel" | "userSign";
+}
+export interface CollectSuccess extends CollectResponse {
+  orderRef: string;
+  status: "complete";
+  completionData: CompletionData;
+}
 export interface ClientOptions {
   certPath: string;
   passphrase: string;
@@ -60,23 +87,25 @@ export const startAuthentication = (
     }
   );
 
-const authenticate = (
+export const authenticate = (
   client: AxiosInstance,
   personalNumber: string,
   endUserIp: string,
   requirement = {}
-) => {
+): Promise<CollectSuccess> =>
   startAuthentication(client, personalNumber, endUserIp, requirement).then(
-    (response: AxiosResponse<{ orderRef: string }>) => {
+    (
+      response: AxiosResponse<{ orderRef: string }>
+    ): Promise<CollectSuccess> => {
       const { data: { orderRef } } = response;
       return new Promise((resolve, reject) => {
         // Start a interval to poll every 2 seconds
         const intervalId = setInterval(() => {
           collect(client, orderRef)
-            .then(({ data }) => {
+            .then(({ data }: { data: CollectResponse }) => {
               if (data.status === "complete") {
                 clearInterval(intervalId);
-                resolve(data);
+                resolve(data as CollectSuccess);
               } else if (data.status === "failed") {
                 clearInterval(intervalId);
                 reject(data);
@@ -87,4 +116,3 @@ const authenticate = (
       });
     }
   );
-};

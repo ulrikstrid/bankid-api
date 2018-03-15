@@ -1,8 +1,9 @@
 {
   "name": "node-bankid-api",
-  "version": "1.0.0",
+  "version": "1.1.2",
   "description": "Functions to talk to the Swedish BankID API",
-  "main": "src/index.js",
+  "main": "build/index.js",
+  "types": "./build/index.d.ts",
   "repository": "git@github.com:ulrikstrid/bankid-api.git",
   "author": "Ulrik Strid (ulrik.strid@outlook.com)",
   "license": "MIT",
