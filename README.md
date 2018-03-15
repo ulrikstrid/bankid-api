@@ -13,7 +13,7 @@ Helper functions to talk to the Swedish BankID API. Uses axios behind the scenes
 `collect` collects the signing from the user.
 
 ```js
-import * as bankidAPI from "@ulrikstrid/bankid-api";
+import * as bankidAPI from "node-bankid-api";
 
 const client = bankidAPI.createClient();
 
