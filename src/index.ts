@@ -2,17 +2,19 @@
 import * as fs from "fs";
 import * as https from "https";
 import * as path from "path";
-import axios, { AxiosInstance, AxiosResponse } from "axios";
+import axios, { AxiosInstance, AxiosResponse, AxiosPromise } from "axios";
 
 const testCertPath = path.resolve("./FPTestcert2_20150818_102329.pfx");
 const testPassphrase = "querty123";
 
-interface ClientOptions {
+export { AxiosInstance, AxiosResponse, AxiosPromise };
+
+export interface ClientOptions {
   certPath: string;
   passphrase: string;
 }
 
-const createClient = (opts: ClientOptions) => {
+export const createClient = (opts: ClientOptions) => {
   const { certPath = testCertPath, passphrase = testPassphrase } = opts;
   const pfx = fs.readFileSync(certPath);
 
@@ -25,7 +27,7 @@ const createClient = (opts: ClientOptions) => {
   });
 };
 
-const collect = (client: AxiosInstance, orderRef: string) =>
+export const collect = (client: AxiosInstance, orderRef: string) =>
   client.post(
     "https://appapi2.test.bankid.com/rp/v5/collect",
     {
@@ -38,7 +40,7 @@ const collect = (client: AxiosInstance, orderRef: string) =>
     }
   );
 
-const startAuthentication = (
+export const startAuthentication = (
   client: AxiosInstance,
   personalNumber: string,
   endUserIp: string,
